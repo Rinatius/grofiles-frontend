@@ -4,19 +4,26 @@ import {
   Switch,
   Route,
   Link,
-  useRouteMatch,
   useParams
 } from "react-router-dom";
 import "./App.css";
-import Node from "./components/node/node";
+import Node from "./components/node/Node";
 import {ParamTypes} from "./types/types";
+import Notfound from "./components/notfound/Notfound";
 
 
 const Home = () => <h2>Home</h2>;
 
 const NodeRedirect = () => {
   const { pk } = useParams<ParamTypes>()
-  return <Node pk={BigInt(pk)} />;
+  let pkInt: bigint;
+  try {
+    pkInt = BigInt(pk)
+  }
+  catch {
+    return <Notfound message="PK is not an integer." />;
+  }
+  return <Node pk={pkInt} />;
 }
 
 
